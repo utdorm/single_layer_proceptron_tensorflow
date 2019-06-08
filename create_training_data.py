@@ -11,7 +11,7 @@ IMG_SIZE = 28
 
 DATADIR = './train/'
 
-CATEGORIES = ['add', 'temp']
+CATEGORIES = ['add', 'div', 'mlt', 'sbt']
 
 training_data = []
 
@@ -26,8 +26,7 @@ def create_training_data():
                 img_array = cv2.imread(os.path.join(path,img) ,cv2.IMREAD_GRAYSCALE)  # convert to array
                 new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))  # resize to normalize data size
                 training_data.append([new_array, class_num])  # add this to our training_data
-            #except OSError as e:
-            #    print("OSErrroBad img most likely", e, os.path.join(path,img))
+            
             except Exception as e:
                print("general exception", e, os.path.join(path,img))
 
@@ -44,6 +43,11 @@ for features,label in training_data:
     y.append(label)
 
 X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
+y = np.array(y)
+
+
+
+
 
 import pickle
 

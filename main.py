@@ -5,12 +5,16 @@ from keras.callbacks import TensorBoard
 import pickle
 import time
 
+# dense_layers = [1, 2, 3]
+# layer_sizes = [1, 32, 64, 128]
+# 64-nodes_3-layers-1559982529 - Best result
+
 dense_layers = [1, 2, 3]
 layer_sizes = [1, 32, 64, 128]
-# 64-nodes_3-layers-1559982529 - Best result
 
 
 def main():
+
 
     pickle_in = open("X.pickle","rb")
     X = pickle.load(pickle_in)
@@ -20,6 +24,7 @@ def main():
 
     X = X/255.0
     
+
     for dense_layer in dense_layers:
         for layer_size in layer_sizes:
             getModelName = "{}-nodes_{}-layers-{}".format(layer_size, dense_layer, int(time.time()))
@@ -31,12 +36,11 @@ def main():
             model.add(Flatten())
 
             for _ in dense_layers:
-
                 model.add(Dense(layer_size, activation='relu'))
 
-            model.add(Dense(1, activation='sigmoid'))
-            
-            initTensorboard = TensorBoard(log_dir="logs/{}".format(getModelName))
+            model.add(Dense(4, activation='sigmoid'))
+
+            initTensorboard = TensorBoard(log_dir="multiclass_logs/{}".format(getModelName))
             
             model.compile(
                             loss='binary_crossentropy',
@@ -48,11 +52,9 @@ def main():
                         X, y, 
                         batch_size=32, 
                         epochs=10, 
-                        validation_split=0.1, 
+                        validation_split=0.1,
                         callbacks=[initTensorboard]
                     )
-
-            
 
 if __name__ == "__main__": 
 
