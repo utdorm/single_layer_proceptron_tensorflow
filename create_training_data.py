@@ -1,4 +1,4 @@
-
+from sklearn.preprocessing import MultiLabelBinarizer
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -6,14 +6,16 @@ import cv2
 # from tqdm import tqdm
 
 # IMG_SIZE = 24
-# IMG_SIZE = 224
-IMG_SIZE = 28
+IMG_SIZE = 224
+# IMG_SIZE = 28
 
 DATADIR = './train/'
+# TESTDIR = './test/'
 
 CATEGORIES = ['add', 'div', 'mlt', 'sbt']
 
 training_data = []
+# testing_data = []
 
 def create_training_data():
     for category in CATEGORIES:  # do dogs and cats
@@ -36,26 +38,22 @@ import random
 random.shuffle(training_data)
 
 X = []
-y = []
+labels = []
 
 for features,label in training_data:
     X.append(features)
-    y.append(label)
+    labels.append(label)
 
 X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
-y = np.array(y)
-
-
-
-
+labels = np.array(labels)
 
 import pickle
 
-pickle_out = open("X.pickle","wb")
+pickle_out = open("X_training.pickle","wb")
 pickle.dump(X, pickle_out)
 pickle_out.close()
 
-pickle_out = open("y.pickle","wb")
-pickle.dump(y, pickle_out)
+pickle_out = open("y_training.pickle","wb")
+pickle.dump(labels, pickle_out)
 pickle_out.close()
 
