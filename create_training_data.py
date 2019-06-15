@@ -6,8 +6,8 @@ import cv2
 # from tqdm import tqdm
 
 # IMG_SIZE = 24
-IMG_SIZE = 224
-# IMG_SIZE = 28
+# IMG_SIZE = 224
+IMG_SIZE = 28
 
 DATADIR = './train/'
 # TESTDIR = './test/'
@@ -37,20 +37,20 @@ create_training_data()
 import random
 random.shuffle(training_data)
 
-X = []
+X_training_samples = []
 labels = []
 
 for features,label in training_data:
-    X.append(features)
+    X_training_samples.append(features)
     labels.append(label)
 
-X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
+X_training_samples = np.array(X_training_samples).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
 labels = np.array(labels)
 
 import pickle
 
 pickle_out = open("X_training.pickle","wb")
-pickle.dump(X, pickle_out)
+pickle.dump(X_training_samples, pickle_out)
 pickle_out.close()
 
 pickle_out = open("y_training.pickle","wb")

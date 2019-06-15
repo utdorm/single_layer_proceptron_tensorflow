@@ -11,10 +11,15 @@ import numpy as np
 # layer_sizes = [1, 32, 64, 128]
 # 64-nodes_3-layers-1559982529 - Best result
 
-dense_layers = [1, 2, 3]
-layer_sizes = [32, 64, 128, 256]
+# dense_layers = [1, 2, 3]
+# layer_sizes = [32, 64, 128]
 
+
+dense_layers = [2]
+layer_sizes = [64]
+getModelName = ""
 """ Accuracy Best """
+
 
 
 """ Low Loss """
@@ -47,22 +52,27 @@ def main():
 
             model.add(Dense(4, activation='sigmoid'))
 
-            initTensorboard = TensorBoard(log_dir="multiclass_logs/{}".format(getModelName))
+            initTensorboard = TensorBoard(log_dir="final_multiclass_logs/{}".format(getModelName))
 
             model.compile(
                             loss='binary_crossentropy',
                             optimizer='adam',
-                            metrics=['accuracy'],
-                            callbacks = [initTensorboard]
+                            metrics=['accuracy']
+                            
                         )
 
             model.fit(
                         X_train, y_train, 
                         batch_size=32, 
                         epochs=10, 
-                        validation_split=0.1
+                        validation_split=0.1,
+                        callbacks = [initTensorboard]
                     )
             
+            scores = model.evaluate(X_train, y_train, verbose=0)
+            print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+            
+    model.save("{}.model".format(getModelName))
 
 if __name__ == "__main__": 
 
