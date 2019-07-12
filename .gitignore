@@ -2,3 +2,4 @@
 **/test
 **/train
 *.pickle
+*.model
